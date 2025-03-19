@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Practice | A Game To Learn Placing Countries</title>
+    <meta name="description" content="Learn where countries are on the world map with a Spaced Repetition Algorithm.">
+    <meta name="author" content="Kolja Sam Pluemer">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://funcssion.com/css/funcssion.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;600;700;800&family=Martian+Mono:wght@100;400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="mobile">
+        <h1>Mobile Version is still under construction.</h1>
+        <img id="construstion-img" src="construction.svg" alt="Construction Drawing">
+    </div>
+    <div id="desktop">
+        <div class="mv2 fs2 flex flex-items-center" id="challenge-wrapper">
+            Click on
+            <div id="challengeCountry" class="inset display p1 mh1">
+                ...
+            </div>
+        </div>
+
+
+        <main id="map-wrapper" class="inset mw-auto mh2">
+           <!-- this is where the svg tag of the map ws extracted to map_svg_extracted.svg -->
+
+            <div id="zoom-buttons" class="flex justify-center gap">
+                <div>Zoom To...</div>
+                <button id="zoom-world">World</button>
+                <button id="zoom-africa">Africa</button>
+                <button id="zoom-middle-america">Central America</button>
+                <button id="zoom-mediterranean">Mediterranean</button>
+                <button id="zoom-sea">SEA</button>
+                <button id="zoom-oceania">Oceania</button>
+            </div>
+
+            <div id="zoom-level-buttons" class="flex justify-center gap">
+                <button id="zoom-in" aria-label="Zoom In">
+                    <svg aria-hidden="true" class="icon" fill="none" stroke="currentColor" stroke-width="1.5"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+
+                <button id="zoom-out" aria-label=" Zoom Out">
+
+
+                    <svg aria-hidden="true" class="icon" fill="none" stroke="currentColor" stroke-width="1.5"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+
+        </main>
+        <div id="feedback-wrapper" class="flex gap mv2 flex-items-center">
+            <div class="led" id="gradeLED"></div>
+            <div id="feedback">...</div>
+        </div>
+
+        <div id="stats">
+
+            <div class="gauge-wrapper" id="streak-wrapper">
+                <div class="label">streak
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">One bar for every country you got right in a row.</div>
+                    </div>
+                </div>
+                <div id="stats-global-streak">
+                    N/A
+                </div>
+            </div>
+
+            <div class="gauge-wrapper" id="accuracy-wrapper">
+                <div class="label">accuracy
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The percentage of guesses you got right.</div>
+                    </div>
+                </div>
+                <div id="stats-accuracy" class="gauge"></div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="units-wrapper">
+                <div class="label">training units done
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The number of guesses you made on this page.</div>
+                    </div>
+                </div>
+                <div id="stats-units" class="gauge">0</div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="due-wrapper">
+                <div class="label">countries learned
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The amount of countries that you're currently retaining, according
+                            to my Spaced Repetition algorithm (out of the max. nr. of 255)</div>
+                    </div>
+                </div>
+                <progress id="stats-due" max="255" value="0"></progress>
+            </div>
+
+
+
+            <div class="gauge-wrapper" id="units-this-session-wrapper">
+                <div class="label">training units this session
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The amount of guesses you made since loading the page.</div>
+                    </div>
+                </div>
+                <div id="stats-units-this-session" class="gauge">0</div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="units-last-session-wrapper">
+                <div class="label">training units last session
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The amount of guesses you made in the session before your current page
+                            load.</div>
+                    </div>
+                </div>
+                <div id="stats-units-last-session" class="gauge">N/A</div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="thinking-time-wrapper">
+                <div class="label">average thinking time
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11<-0.75 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The mean time you need between seeing a new country and
+                            clicking (for this session; every guess time is capped at 60s).</div>
+                    </div>
+                </div>
+                <div id="stats-thinking-time" class="gauge">N/A</div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="hardest-country-wrapper">
+                <div class="label">hardest country
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The country which you most
+                            often placed incorrectly.</div>
+                    </div>
+                </div>
+                <div id="stats-hardest-country" class="gauge">N/A</div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="most-confused-wrapper">
+                <div class="label">most confused
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">Your most common mix up.</div>
+                    </div>
+                </div>
+
+                <div class="flex gap flex-items-center">
+                    <div id="stats-most-confused-a" class="gauge small-gauge"></div>
+                    <div class="gauge small-gauge">&</div>
+                    <div id="stats-most-confused-b" class="gauge small-gauge"></div>
+                </div>
+            </div>
+
+
+            <div class="gauge-wrapper" id="nemesis-wrapper">
+                <div class="label">latest nemesis
+                    <div class="tooltip">
+                        <svg class="icon " aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="tooltiptext">The country with the longest ongoing streak
+                            of incorrect guesses.</div>
+                    </div>
+                </div>
+                <div id="stats-nemesis" class="gauge">N/A</div>
+            </div>
+
+                <p id="tweet-wrapper">
+                    Brag with your statistics:
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" id="tweet" class="twitter-share-button" data-size="large" data-text="" data-url="https://world.koljapluemer.com/" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                </p>
+          
+            
+        </div>
+
+        <footer id="settings" class="label p4 mt2">
+            <h1>World Map Practice</h1>
+            <p>
+                Welcome. This is a little tool I built to get better at <a
+                    href="https://www.geoguessr.com/vgp/3355">this
+                    GeoGuessr challenge</a>. I hope you enjoy it.
+                *World Map Practice* is free, <a href="https://github.com/koljapluemer/map-practice">open source</a>,
+                and not intended
+                to make me money or anything. I just enjoy building learning systems.
+
+                The special things about this game is that countries are repeated according to a schedule made by a
+                self-made <a href="https://en.wikipedia.org/wiki/Spaced_repetition">Spaced Repetition</a> which starts
+                with
+                10 second intervals. If you are interested in this, please message me <a
+                    href="https://twitter.com/koljapluemer">on Twitter</a>.
+            </p>
+            <h2>
+                Data
+            </h2>
+            <p>
+                No personal data is saved or leaves your device. I track plain page views with the privacy-friendly tool
+                <a href="https://www.goatcounter.com/">GoatCounter</a>. Your learning data is saved in your
+                LocalStorage,
+                so you can continue your practice at a later point.
+            </p>
+            <h2>Settings</h2>
+            <label class="toggle-label">
+                <div class="toggle" id="tiny-country-check-wrapper">
+                    <input class="toggle-state" type="checkbox" name="check" value="check" checked="checked"
+                        id="tiny-country-check" />
+                    <div class="indicator"></div>
+                </div>
+                <div class="label-text">Include Tiny Countries</div>
+            </label>
+
+
+
+            <h2>Interesting Links</h2>
+            <ul class="m0">
+                <li>
+                    <a href="https://github.com/koljapluemer/map-practice">About this project</a>
+                </li>
+                <li>
+                    <a href="https://koljapluemer.com/">More of my work</a>
+                </li>
+                <li>
+                    <a href="https://blackbrokkoli.github.io/summer-of-math-2021/">Practice matrix multiplication</a>
+                </li>
+                <li>
+                    <a href="https://kaado.koljapluemer.com/dashboard">Combine all your learning, habits and todos</a>
+                </li>
+            </ul>
+
+        </footer>
+        <script src="./config.js" type="module"></script>
+        <script src="./svg-pan-zoom.js"></script>
+        <script src="./main.js" type="module"></script>
+    </div>
+
+    <script data-goatcounter="https://worldmap.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+
+</body>
+
+
+
+
+</html>

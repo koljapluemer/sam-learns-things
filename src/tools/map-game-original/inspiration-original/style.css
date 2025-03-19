@@ -1,0 +1,552 @@
+body,
+html {
+  background: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-family: "Baloo Thambi 2", cursive;
+  color: #333;
+}
+
+#mobile {
+  display: none;
+}
+
+#construstion-img {
+  max-width: 90vw;
+}
+
+code {
+  white-space: pre-wrap;
+  max-width: 100%;
+}
+
+details, summary {
+  margin: 0;
+  padding: 0;
+}
+
+
+#map {
+  width: 100%;
+  height: 100%;
+  z-index: -99;
+  overflow: hidden;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#map-wrapper {
+  width: 90vw;
+  height: 70vh;
+  max-height: 70vh;
+  position: relative;
+}
+
+p {
+  max-width: 600px;
+  font-size: 16px;
+}
+
+path,
+circle {
+  stroke: rgb(122, 122, 122);
+  cursor: crosshair;
+}
+
+path {
+  fill: rgb(231, 231, 231);
+}
+
+.small-country-circle {
+  fill: rgba(231, 231, 231, 0.2);
+}
+
+path:hover,
+.small-country-circle:hover {
+  fill: rgb(134, 134, 212) !important;
+  stroke: rgb(71, 71, 134);
+  z-index: 99;
+}
+
+.flashing {
+  fill: red;
+  animation: flashRed 1s; /* Apply the animation */
+  z-index: 99;
+}
+
+/* Define the @keyframes animation */
+/* add slight scaling up */
+@keyframes flashRed {
+  0%,
+  50% {
+    fill: red; /* Start with red */
+  }
+  100% {
+    fill: orange; /* End with orange */
+  }
+}
+
+.guide-circle {
+  fill: rgba(200, 0, 0, 0.1);
+}
+
+.inset {
+  border-radius: 10px;
+  background: #e0e0e0;
+  box-shadow: inset 6px 6px 12px #bebebe, inset -6px -6px 12px #ffffff;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap {
+  gap: 12px;
+}
+
+button {
+  border-radius: 8px;
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: 3px 3px 4px #d3d3d3, -2px -2px 4px #ededed;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: "Baloo Thambi 2", cursive;
+  font-size: 14px;
+  color: #333;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: 5px 5px 5px #dedede, -5px -5px 5px #e2e2e2;
+}
+
+.display {
+  font-family: "Martian Mono", monospace;
+}
+
+#challengeCountry {
+  min-width: min(70vw, 800px);
+}
+
+/* Keyframes for the animation */
+@keyframes fadeToLighterGreen {
+  0% {
+    fill: #064d06;
+  } /* Dark green color (adjust hex code as needed) */
+  100% {
+    fill: #6bb66b;
+  } /* Lighter green color (adjust hex code as needed) */
+}
+
+/* CSS class .correct with animation */
+.correct {
+  fill: #56b156; /* Dark green color (adjust hex code as needed) */
+  stroke: rgb(63, 121, 63);
+  animation: fadeToLighterGreen 1s forwards; /* Animation properties: 1s duration, forwards to stay at the final color */
+}
+
+@keyframes fadeToLighterRed {
+  0% {
+    fill: #bb0606;
+  } /* Dark red color (adjust hex code as needed) */
+  100% {
+    fill: #e48f8f;
+  } /* Lighter red color (adjust hex code as needed) */
+}
+
+.incorrect {
+  fill: #bb0606; /* Dark red color (adjust hex code as needed) */
+  animation: fadeToLighterRed 1s forwards; /* Animation properties: 1s duration, forwards to stay at the final color */
+  stroke: rgb(124, 52, 52);
+}
+
+@keyframes fadeFromBlue {
+  0% {
+    fill: rgb(134, 134, 212);
+  } /* Blue color (adjust hex code as needed) */
+  100% {
+    fill: rgb(231, 231, 231);
+  }
+}
+
+.selected {
+  fill: rgb(134, 134, 212); /* Blue color (adjust hex code as needed) */
+  animation: fadeFromBlue 2s forwards; /* Animation properties: 1s duration, forwards to stay at the final color */
+}
+
+#zoom-buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  flex-direction: column;
+
+}
+
+#zoom-level-buttons {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  flex-direction: column;
+}
+
+#svg-pan-zoom-controls {
+  padding: 20px;
+}
+
+#zoom-in, #zoom-out {
+  display: grid;
+  place-items: center;
+}
+
+#zoom-level-buttons path:hover {
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+.led {
+  border-radius: 50%;
+  min-height: 20px;
+  height: 20px;
+  min-width: 20px;
+  width: 20px;
+  background: #e0e0e0;
+  box-shadow: inset 5px 5px 10px rgba(56, 56, 56, 0.4),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.4);
+}
+
+#feedback {
+  min-width: 300px;
+}
+
+.previouslyCorrect {
+  /* fill: rgb(187, 250, 187); */
+  fill: rgb(86, 177, 86, 0.2);
+}
+
+.previouslyIncorrect {
+  /* fill: rgb(255, 198, 160); */
+  fill: rgb(187, 6, 6, 0.2);
+}
+
+.gauge {
+  border-radius: 20px;
+  background: #e0e0e0;
+  box-shadow: inset 6px 6px 7px #bebebe, inset -6px -6px 7px #ffffff;
+  padding: 12px 20px;
+  font-family: "Martian Mono", monospace;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.small-gauge {
+  font-size: 14px;
+  border-radius: 14px;
+  padding: 8px 12px;
+}
+
+.label {
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: 2px 2px 2px #bebebe, -2px -2px 2px #ffffff;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+
+.gauge-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 20px 0;
+  flex-direction: column;
+  background: #e0e0e0;
+  box-shadow: inset 2px 2px 2px #bebebe, inset -2px -2px 2px #ffffff;
+  padding: 8px;
+}
+
+.progress-bar-iterator {
+  box-shadow: inset 2px 2px 2px #bebebe, inset -2px -2px 2px #ffffff;
+  min-height: 20px;
+  height: 20px;
+  min-width: 3px;
+  width: 3px;
+  background: #56b156;
+}
+
+#stats-global-streak {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#stats-due {
+  height: 10px;
+  width: 100%;
+  border: none;
+  box-shadow: 2px 2px 2px #bebebe, -2px -2px 2px #ffffff;
+}
+
+#stats {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  grid-template-rows: auto;
+  grid-template-areas:
+    "a a a a a a"
+    "b b b c c c"
+    "d d d d d d"
+    "e e f f g g"
+    "h h i i j j";
+  max-width: min(95vw, 1200px);
+  margin: 0 auto;
+  gap: 8px;
+}
+
+#settings {
+  max-width: min(95vw, 1200px);
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 24px auto;
+  /* background: #ecf0f3; */
+}
+
+#streak-wrapper {
+  grid-area: a;
+}
+
+#due-wrapper {
+  grid-area: d;
+}
+
+#accuracy-wrapper {
+  grid-area: b;
+}
+
+#units-wrapper {
+  grid-area: c;
+}
+
+#units-this-session-wrapper {
+  grid-area: e;
+}
+
+#units-last-session-wrapper {
+  grid-area: f;
+}
+
+#thinking-time-wrapper {
+  grid-area: g;
+}
+
+#hardest-country-wrapper {
+  grid-area: i;
+}
+
+#most-confused-wrapper {
+  grid-area: h;
+}
+
+#nemesis-wrapper {
+  grid-area: j;
+}
+
+
+.icon {
+  height: 18px;
+  width: 18px;
+  margin: auto;
+}
+
+.icon * {
+  cursor: default;
+} 
+
+.icon *:hover {
+  fill: #ddd;
+}
+
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 240px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  margin-left: 24px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: #394a56;
+}
+
+.label-text {
+  margin-left: 16px;
+}
+
+.toggle {
+  isolation: isolate;
+  position: relative;
+  height: 30px;
+  width: 60px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow:
+    -8px -4px 8px 0px #dbdbdb,
+    8px 4px 12px 0px #a3a3a3,
+    4px 4px 4px 0px #a3a3a3 inset,
+    -4px -4px 4px 0px #dbdbdb inset;
+}
+
+.toggle-state {
+  display: none;
+}
+
+.indicator {
+  height: 100%;
+  width: 200%;
+  background: #a8a8a8;
+  border-radius: 15px;
+  transform: translate3d(-75%, 0, 0);
+  transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+  box-shadow:
+    -8px -4px 8px 0px #dbdbdb,
+    8px 4px 12px 0px #a3a3a3;
+}
+
+.toggle-state:checked ~ .indicator {
+  transform: translate3d(25%, 0, 0);
+  background: rgb(125, 214, 147);
+}
+
+/* completely change layout for mobile */
+
+@media only screen and (max-width: 600px) {
+  #stats {
+    display: flex;
+    flex-direction: column;
+    max-width: 95vw;
+    margin: 0;
+  }
+
+  #mobile {
+    display: block;
+  }
+
+  #desktop {
+    display: none;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #map-wrapper {
+    height: 100vw;
+    max-width: 100vw;
+    max-height: 99vh;
+    height: 99vh;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  #settings {
+    max-width: 95vw;
+  }
+
+  #challenge-wrapper {
+      position: absolute;
+      background-color: #ebebeb;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
+      padding: 12px;
+      font-size: 12px;
+      border-radius: 12px
+  }
+
+  #challengeCountry {
+    min-width: inherit;
+  }
+
+  #zoom-buttons {
+    display: none;
+  }
+
+  #feedback-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    background-color: #ebebeb;
+    padding: 8px;
+  }
+
+  #zoom-level-buttons {
+    bottom: 50px;
+  }
+
+  #fab {
+    display: grid;
+  }
+}
+
+
+.finder-circle {
+  fill: rgba(32, 35, 83, 0.2);
+}
+
+/* animation for a svg circle to become gradually smaller by manipulating radius */
+@keyframes shrink {
+  0% {
+    r: 35;
+  }
+  100% {
+    r: 0;
+  }
+}
+
+.shrink {
+  animation: shrink 2s ease-in-out;
+}
+
+.hide {
+  display: none;
+}
+
+#tweet-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

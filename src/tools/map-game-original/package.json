@@ -1,0 +1,26 @@
+{
+  "name": "map-game",
+  "version": "1.0.0",
+  "description": "A geography learning game built with Vue 3 and TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "typescript",
+    "geography",
+    "game",
+    "learning"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "svg-pan-zoom": "^3.6.1",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.0",
+    "typescript": "^5.1.6"
+  }
+} 
