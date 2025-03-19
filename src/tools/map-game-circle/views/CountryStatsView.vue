@@ -1,12 +1,12 @@
 <template>
   <div class="container mx-auto p-4">
     <div class="flex items-center gap-4 mb-6">
-      <router-link 
-        :to="{ name: 'stats' }" 
+      <button 
+        @click="navigate({ name: 'stats' })"
         class="btn btn-ghost"
       >
         ← Back to Stats
-      </router-link>
+      </button>
       <h1 class="text-2xl font-bold">Learning Progress for {{ country }}</h1>
     </div>
 
@@ -26,9 +26,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useMapGameRouter } from '../composables/useMapGameRouter'
 import { useDexie, type LearningEvent } from '../composables/useDexie'
 import TimeProgressChart from '../components/stats/TimeProgressChart.vue'
 import DistanceProgressChart from '../components/stats/DistanceProgressChart.vue'
+
+const { navigate } = useMapGameRouter()
 
 const props = defineProps<{
   country: string

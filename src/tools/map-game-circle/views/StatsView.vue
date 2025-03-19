@@ -34,10 +34,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useMapGameRouter } from '../composables/useMapGameRouter'
 import { useDexie, type CountryCard } from '../composables/useDexie'
 
-const router = useRouter()
+const { navigate } = useMapGameRouter()
 const { getAllCards } = useDexie()
 const cards = ref<CountryCard[]>([])
 
@@ -47,10 +47,7 @@ const formatDate = (date: Date) => {
 }
 
 const navigateToCountryStats = (country: string) => {
-  router.push({
-    name: 'countryStats',
-    params: { country }
-  })
+  navigate({ name: 'countryStats', params: { country } })
 }
 
 onMounted(async () => {
