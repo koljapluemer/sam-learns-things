@@ -37,12 +37,31 @@ export default {
       try {
         const response = await fetch('/data/learn-flags/iso_codes.csv')
         const text = await response.text()
+        
+        // Parse CSV properly handling quoted values
         const rows = text.split('\n').slice(1) // Skip header
         countries.value = rows
           .filter(row => row.trim())
           .map(row => {
-            const [name, code] = row.split(',')
-            return { name, code: code.trim() }
+            // Handle quoted values
+            let name = ''
+            let code = ''
+            
+            if (row.startsWith('"')) {
+              // Find the end of the quoted name
+              const quoteEnd = row.indexOf('",')
+              if (quoteEnd !== -1) {
+                name = row.substring(1, quoteEnd)
+                code = row.substring(quoteEnd + 2).trim()
+              }
+            } else {
+              // Regular comma-separated format
+              const parts = row.split(',')
+              name = parts[0]
+              code = parts[1]?.trim() || ''
+            }
+            
+            return { name, code }
           })
       } catch (error) {
         console.error('Error loading countries:', error)
