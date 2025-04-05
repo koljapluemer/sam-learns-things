@@ -1,0 +1,1 @@
+- made a whole script so we don't get countries with non-existant flags; this was however apparently not a problem?!

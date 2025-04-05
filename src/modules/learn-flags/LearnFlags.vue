@@ -10,9 +10,9 @@
         @click="checkAnswer(option)"
         :class="{
           'correct': showCorrect && option.code === currentCountry,
-          'incorrect': showIncorrect && option.code !== currentCountry
+          'incorrect': showIncorrect && option.code !== currentCountry && option.code === lastClicked
         }"
-        :disabled="showCorrect || showIncorrect"
+        :disabled="showCorrect"
       >
         {{ option.name }}
       </button>
@@ -31,6 +31,7 @@ export default {
     const options = ref([])
     const showCorrect = ref(false)
     const showIncorrect = ref(false)
+    const lastClicked = ref('')
 
     const loadCountries = async () => {
       try {
@@ -49,13 +50,20 @@ export default {
     }
 
     const getRandomCountry = () => {
+      if (!countries.value.length) return null
       const index = Math.floor(Math.random() * countries.value.length)
       return countries.value[index]
     }
 
     const generateOptions = () => {
+      if (!countries.value.length) return
+      
       const correctCountry = getRandomCountry()
+      if (!correctCountry) return
+      
       currentCountry.value = correctCountry.code
+      showIncorrect.value = false
+      lastClicked.value = ''
       
       let wrongCountry
       do {
@@ -69,6 +77,10 @@ export default {
     }
 
     const checkAnswer = (selectedCountry) => {
+      if (!currentCountry.value) return
+      
+      lastClicked.value = selectedCountry.code
+      
       if (selectedCountry.code === currentCountry.value) {
         showCorrect.value = true
         setTimeout(() => {
@@ -91,6 +103,7 @@ export default {
       options,
       showCorrect,
       showIncorrect,
+      lastClicked,
       checkAnswer,
       currentFlagPath: computed(() => `/data/learn-flags/flags/${currentCountry.value.toLowerCase()}.svg`)
     }
