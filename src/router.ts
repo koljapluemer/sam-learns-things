@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from './views/Home.vue'
+import Home from './Home.vue'
+import ClozeGenerator from './modules/cloze-generator/ClozeGenerator.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -9,6 +10,11 @@ const router = createRouter({
       name: 'home',
       component: Home
     },
+    {
+      path: '/cloze-generator',
+      name: 'cloze-generator',
+      component: ClozeGenerator
+    }
   ]
 })
 
