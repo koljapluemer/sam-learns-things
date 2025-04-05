@@ -1,0 +1,2 @@
+- https://datahub.io/core/country-list
+- https://github.com/joielechong/iso-country-flags-svg-collection
