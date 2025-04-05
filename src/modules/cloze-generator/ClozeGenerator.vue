@@ -19,7 +19,14 @@
         :disabled="!generatedFiles.length"
         class="download-btn"
       >
-        Download All Files
+        Download MD Files
+      </button>
+      <button 
+        @click="downloadAnkiFile" 
+        :disabled="!generatedFiles.length"
+        class="anki-btn"
+      >
+        Download Anki CSV
       </button>
     </div>
 
@@ -94,7 +101,10 @@ q:
       
       generatedFiles.value.push({
         content: template,
-        filename: `cloze_${index + 1}_word_${wordIndex + 1}.md`
+        filename: `cloze_${index + 1}_word_${wordIndex + 1}.md`,
+        clozeSentence,
+        native: row.native,
+        target: row.target
       })
     })
   })
@@ -112,6 +122,44 @@ const downloadAllFiles = () => {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   })
+}
+
+const downloadAnkiFile = () => {
+  // Create Anki-compatible CSV content
+  const ankiRows = generatedFiles.value.map(file => {
+    // Find which word was replaced with ＿
+    const targetWords = file.target.split(' ')
+    const clozeWords = file.clozeSentence.split(' ')
+    const missingWordIndex = clozeWords.findIndex(word => word === '＿')
+    const missingWord = targetWords[missingWordIndex]
+    
+    // Create bold version of target sentence
+    const boldTarget = targetWords.map((word, i) => 
+      i === missingWordIndex ? `<b>${word}</b>` : word
+    ).join(' ')
+    
+    // Front: Cloze sentence + Native sentence
+    const front = `${file.clozeSentence}<br><br>${file.native}`
+    
+    // Back: Complete sentence with bold missing word
+    const back = boldTarget
+
+    return [front, back].join(',')
+  })
+
+  // Add header row
+  const ankiContent = ['#separator:,', '#html:true', '#deck:Cloze Cards', ''].concat(ankiRows).join('\n')
+
+  // Create and download the file
+  const blob = new Blob([ankiContent], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'anki_cloze_cards.csv'
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
 }
 </script>
 
@@ -152,5 +200,9 @@ button:disabled {
 
 .download-btn {
   background-color: #2196F3;
+}
+
+.anki-btn {
+  background-color: #9C27B0;
 }
 </style>
