@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import App from './App.vue'
-import MapGameCircle from './tools/map-game-circle/MapGameCircle.vue'
-import MapGameOriginal from './tools/map-game-original/MapGameOriginal.vue'
+import Home from './views/Home.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -9,18 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: App
+      component: Home
     },
-    {
-      path: '/map-game-circle',
-      name: 'map-game-circle',
-      component: MapGameCircle
-    },
-    {
-      path: '/map-game-original',
-      name: 'map-game-original',
-      component: MapGameOriginal
-    }
   ]
 })
 
